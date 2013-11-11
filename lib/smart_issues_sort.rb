@@ -7,6 +7,8 @@ module SmartIssuesSortVVK
     options_to_discard=%w(issues.root_id authors.firstname authors.id users.firstname users.id versions.name)
     parent_involved=false
     options_array=[]
+    order_option.gsub!(/COALESCE\((\w+)(\d+)\.value, ''\)/, 'cfield.\2')
+    order_option.gsub!(/CAST\(CASE (\w+)(\d+)\.value WHEN '' THEN '0' ELSE \w+\.value END AS decimal\(30,3\)\)/, 'cfield.\2')
     if order_option.include?('LIMIT')
       normalized_options=[]
       bracket_no=0
