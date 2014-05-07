@@ -5,6 +5,16 @@ This sort method honors issue tree and parent - child relationships.
 
 Also this plugin adds category support for queries and several parent sort options.
 
+*IMPORTANT:* This is a fork of the original repository at
+https://github.com/logical-and/redmine_smart_issues_sort go there for the
+_official version_.
+
+*EVEN MORE IMPORTANT:* In Redmine 2.4 query role visibility was introduced
+which required some adjustments in the issue list view. As a consequence,
+there are two branches in this repository. If you are using a version prior to
+Redmine 2.4, then use the _redmine2.3_ branch. If your version is 2.4 or higher,
+then use the _master_ branch.
+
 h3. Smart sorting
 
 Plugin replaces default Redmine issues sorting with one more intellegent. This type of sorting always puts children issues of parent issue after parent.
