@@ -97,7 +97,7 @@ module SmartIssuesSortVVK
   # nil_values_first = true if nil values have priority over non-nil values
   def self.get_issues_sorted_list_from_db(sort_options,query_options={},
       issue_ids_only=false,nil_values_first=false,logger=nil)
-    issues = Issue.visible.scoped(:conditions => query_options[:conditions]).find(:all,
+    issues = Issue.visible.where(query_options[:conditions]).find(:all,
                      :include => ([:status, :project] + (query_options[:include] || [])).uniq,
                      :conditions => query_options[:find_conditions],
                      :joins => query_options[:joins])
