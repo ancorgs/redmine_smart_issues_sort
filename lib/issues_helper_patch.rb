@@ -15,13 +15,12 @@ module SmartIssuesSort
           unless @sidebar_queries
             if Redmine::VERSION::MAJOR > 2 ||
               (Redmine::VERSION::MAJOR == 2 && Redmine::VERSION::MINOR >= 3)
-              @sidebar_queries = IssueQuery.visible.all(
-                :order => "#{IssueQuery.table_name}.name ASC",
-                # Project specific queries and global queries
-                :conditions => (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id]),
-                # Make sure we load category as well
-                :select => [:name, :category, :is_public]
-              )
+              # Project specific queries and global queries, make sure we load
+              # category as well
+              @sidebar_queries = IssueQuery.visible
+                .order("#{IssueQuery.table_name}.name ASC")
+                .where(@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
+                .select([:name, :category, :is_public])
             else
 	            @sidebar_queries = IssueQuery.visible.all(
 	              :order => "#{Query.table_name}.name ASC",
@@ -49,7 +48,7 @@ module SmartIssuesSort
                 link_to_hash={:controller => 'issues', :action => 'index', :query_id => query, :project_id => @project }
                 link_to_hash[:project_id]=@project
                 query.project = @project unless @project.nil?
-                out << link_to(h(query.name), link_to_hash, :class => (query.is_public? ? 'icon icon-fav-off' : 'icon icon-fav'))
+                out << link_to(h(query.name), link_to_hash, :class => 'icon icon-fav-off')
                 if for_all_projects && @project != nil
                   link_to_hash[:project_id]=nil
                   query.project = nil
